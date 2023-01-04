@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 // Middleware 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static('./Develop/public'));
+app.use(express.static('public'));
 
 
 // Asynchronous Processes
@@ -20,7 +20,7 @@ const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 // Get API
-app.get('/api/notes', function(req, res) {
+app.get('/api/notes',(req, res) =>{
    console.info(`${req.method}`);
    readFile("./db/db.json")
    .then((data)=>{
@@ -36,7 +36,7 @@ app.post('/api/notes', (req, res)=>{
         const newNote={
             title, 
             text,
-            id: randomUUID(),
+            id: uuidv4(),
         };
 
         readFile('./db/db.json')
@@ -77,7 +77,7 @@ app.post('/api/notes', (req, res)=>{
 
 
     // HTML routes
-    app.get("notes", function(req, res){
+    app.get("notes", (req, res)=>{
         res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
     });
 
@@ -91,6 +91,10 @@ app.post('/api/notes', (req, res)=>{
 
 
     // Listening
-    app.listen(PORT, function(){
-        console.log("Listening on Port"+ PORT)
-    });
+    // app.listen(PORT, function(){
+    //     console.log(`Listening on Port ${PORT}`)
+    // });
+
+    app.listen(PORT, () =>
+  console.log(`Express server listening on port ${PORT}!`)
+);
