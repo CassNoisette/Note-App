@@ -43,7 +43,7 @@ app.post('/api/notes', (req, res)=>{
         .then((data)=>{
             const notes =JSON.parse(data);
             notes.push(newNote);
-            writeFile(".db/db.json", JSON.stringify(notes));
+            writeFile("./db/db.json", JSON.stringify(notes));
         });
 
         const response = {
