@@ -20,7 +20,7 @@ const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 // Get API
-app.get('/api/notes',(req, res) =>{
+app.get('/api/notes',(req, res) => {
    console.info(`${req.method}`);
    readFile("./db/db.json")
    .then((data)=>{
@@ -33,14 +33,14 @@ app.post('/api/notes', (req, res)=>{
     const {title, text} = req.body;
     if (title && text){
         console.info(`{req.method}`);
-        const newNote={
+        const newNote = {
             title, 
             text,
             id: uuidv4(),
         };
 
         readFile('./db/db.json')
-        then((data)=>{
+        .then((data)=>{
             const notes =JSON.parse(data);
             notes.push(newNote);
             writeFile(".db/db.json", JSON.stringify(notes));
@@ -53,13 +53,13 @@ app.post('/api/notes', (req, res)=>{
 
         res.status(201).json(response);
     } 
-    else{
+    else {
         res.status(500).json(`Failed attempt`)
     }
     });
 
     // Delete
-    app.delete("/api/notes/:id", (req, res)=>{
+    app.delete("/api/notes/:id", (req, res)=> {
         readFile("./db/db.json")
         .then((data)=>{
             const database =JSON.parse(data);
@@ -77,16 +77,16 @@ app.post('/api/notes', (req, res)=>{
 
 
     // HTML routes
-    app.get("notes", (req, res)=>{
-        res.sendFile(path.join(__dirname, "./public/notes.html"));
+    app.get("/notes", (req, res)=>{
+        res.sendFile(path.join(__dirname, "/public/notes.html"));
     });
 
     app.get("/", function(req, res){
-        res.sendFile(path.join(__dirname, "./public/index.html"));
+        res.sendFile(path.join(__dirname, "/public/index.html"));
     });
 
     app.get("*", function(req, res){
-        res.sendFile(path.join(__dirname, "./public/notes.html"));
+        res.sendFile(path.join(__dirname, "/public/notes.html"));
     });
 
 
